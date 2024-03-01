@@ -17,9 +17,23 @@ const upload = multer({
 
 // Creating user route
 router.post('/', upload.single('profileImage'), async (req, res) => {
+    let user = new User()
+    if (req.body.firstName == '' ||
+        req.body.lastName == '' ||
+        req.body.email == '' ||
+        req.body.password == '' ||
+        req.body.username == ''
+    ) {
+        user.firstName = req.body.firstName
+        user.lastName = req.body.lastName
+        user.username = req.body.username
+        user.email = req.body.email
+        res.status(400).render('register', { user: user, errorMessage: 'All fields are required' })
+        return
+    }
     const imageName = req.file != null ? req.file.filename : null
     const passwordHash = hashPassword(req.body.password)
-    let user
+
     try {
         user = await User.create({
             firstName: req.body.firstName,
@@ -42,7 +56,8 @@ router.get('/login', (req, res) => {
     if (req.session.auth) {
         res.status(200).json({ message: 'Already log in' })
     } else {
-        res.render('login')
+        const user = new User()
+        res.render('login', { email: '' })
     }
 })
 
@@ -62,11 +77,17 @@ router.post('/login', async (req, res) => {
         res.status(200).json({ message: 'Already login' })
     } else {
         const email = req.body.email
+        const password = req.body.password
+
+        if (email == '' || password == '') {
+            res.status(400).render('login', { errorMessage: 'Fields can\'t be empty', email: email })
+            return
+        }
         let user
         try {
             user = await User.findOne({ where: { email: email } })
             if (user) {
-                const check = await checkPassword(req.body.password, user.password)
+                const check = await checkPassword(password, user.password)
                 if (check == -1) {
                     res.status(500).redirect('/users/login')
                     return
@@ -78,10 +99,10 @@ router.post('/login', async (req, res) => {
                     req.session.auth = true
                     res.status(200).json({ message: 'Login successful' })
                 } else {
-                    res.status(402).json({ message: 'Wrong password' })
+                    res.render('login', { errorMessage: 'Wrong password', email: email })
                 }
             } else {
-                res.status(404).json({ message: 'user not found' })
+                res.render('login', { errorMessage: 'User not found', email: email })
             }
 
         } catch (e) {

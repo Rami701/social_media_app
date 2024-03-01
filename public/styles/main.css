@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+@import './shared/input_fields.css';
+@import './shared/cta_btn.css';
+@import './login.css';
+@import './register.css';
+@import './shared/error_message.css';
+
+
+* {
+    font-family: "Madimi One", sans-serif;
+}
+
+
+body {
+    background-color: #2c2c2c;
+}
+
+h2 {
+    color: white;
+}

@@ -1,15 +1,37 @@
-<h2>Login</h2>
-<form action="/users/login" method="POST">
-    <div>
-        <label>Email</label>
-        <input type="email" name="email">
-    </div>
-    <div>
-        <label>Password</label>
-        <input type="password" name="password">
-    </div>
-    <div>
-        <button type="submit">Login</button>
-        <a href="/users/register">Sign up</a>
-    </div>
-</form>
+<div class="login-container">
+    <h2>Login</h2>
+
+    <form action="/users/login" method="POST" class="login-form">
+        <label>Email:</label>
+        <input type="email" name="email" class="input-text" value="<%= email %>" <%if (typeof errorMessage !='undefined'
+            ) { %>
+        <% if (errorMessage=='User not found' ) {%>
+            style="border: 2px solid rgb(255, 17, 17);"
+            <% } %>
+                <% } %>
+                    >
+
+                    <label>Password:</label>
+                    <input type="password" name="password" class="input-text" <%if (typeof errorMessage !='undefined' )
+                        { %>
+                    <% if (errorMessage=='Wrong password' ) {%>
+                        style="border: 2px solid rgb(255, 17, 17);"
+                        <% } %>
+                            <% } %>>
+
+                                <a href="#" class="login-forgot-link">Forgot password</a>
+
+                                <button type="submit" class="cta-button type1"><span
+                                        class="cta-btn-txt">Login</span></button>
+                                <div class="login-register-link-container">Don't have an account? <a
+                                        href="/users/register">Sign
+                                        up</a></div>
+
+                                <% if (typeof errorMessage !='undefined' ) { %>
+                                    <p class="error-message">
+                                        <%= errorMessage %>
+                                    </p>
+                                    <% } %>
+
+    </form>
+</div>

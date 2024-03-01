@@ -1,12 +1,24 @@
-<h2>Register page</h2>
-<form action="/users" method="POST">
-    <div><input type="text" name="firstName" placeholder="First name" value="<%= user.firstName %>"></div>
-    <div><input type="text" name="lastName" placeholder="Last name" value="<%= user.lastName %>"></div>
-    <div><input type="email" name="email" placeholder="Email" value="<%= user.email %>"></div>
-    <div><input type="text" name="username" placeholder="Username" value="<%= user.username %>"></div>
-    <div><input type="password" name="password" placeholder="Password"></div>
-    <div><input type="password" placeholder="Confirm password"></div>
-    <div>
-        <button type="submit">Sign up</button>
-    </div>
-</form>
+<div class="register-container">
+    <h2>Register Now</h2>
+    <form action="/users" method="POST" class="register-form">
+        <input type="text" name="firstName" placeholder="First name" class="input-text" value="<%= user.firstName %>">
+
+        <input type="text" name="lastName" placeholder="Last name" class="input-text" value="<%= user.lastName %>">
+
+        <input type="email" name="email" placeholder="Email" class="input-text" value="<%= user.email %>">
+        <input type="text" name="username" placeholder="Username" class="input-text" value="<%= user.username %>">
+
+        <input type="password" name="password" class="input-text" placeholder="Password">
+        <input type="password" class="input-text" placeholder="Confirm password">
+
+        <button type="submit" class="cta-button type1"><span class="cta-btn-txt">Sign up</span></button>
+
+        <div class="register-login-link-container">Have an account? <a href="/users/login">Login</a></div>
+
+        <% if (typeof errorMessage !='undefined' ) { %>
+            <p class="error-message">
+                <%= errorMessage %>
+            </p>
+            <% } %>
+    </form>
+</div>
