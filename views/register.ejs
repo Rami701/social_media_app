@@ -1,0 +1,12 @@
+<h2>Register page</h2>
+<form action="/users" method="POST">
+    <div><input type="text" name="firstName" placeholder="First name" value="<%= user.firstName %>"></div>
+    <div><input type="text" name="lastName" placeholder="Last name" value="<%= user.lastName %>"></div>
+    <div><input type="email" name="email" placeholder="Email" value="<%= user.email %>"></div>
+    <div><input type="text" name="username" placeholder="Username" value="<%= user.username %>"></div>
+    <div><input type="password" name="password" placeholder="Password"></div>
+    <div><input type="password" placeholder="Confirm password"></div>
+    <div>
+        <button type="submit">Sign up</button>
+    </div>
+</form>

@@ -1,3 +1,5 @@
+const profileImageBasePath = 'uploads/profile_images'
+
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         firstName: {
@@ -25,10 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         bio: {
             type: DataTypes.STRING,
         },
-        profileImagePath: {
+        profileImageName: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
     })
     return User
 }
+module.exports.profileImageBasePath = profileImageBasePath
