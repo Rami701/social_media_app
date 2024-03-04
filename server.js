@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 const expressLayouts = require('express-ejs-layouts')
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -8,12 +9,13 @@ const db = require('./models')
 
 const port = 3000
 
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
+app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 app.set('layout', 'layout')
 app.use(expressLayouts)
+app.use(methodOverride('_method'))
 
 // Session configuration
 const sessionStore = new SequelizeStore({
@@ -27,13 +29,12 @@ app.use(session({
 }));
 
 const userRouter = require('./routes/user')
+const mainRouter = require('./routes/main')
 
 
 app.use('/users', userRouter)
+app.use('/', mainRouter)
 
-app.get('/', (req, res) => {
-    res.send('Hello world!')
-})
 
 db.sequelize.sync().then((req) => {
     app.listen(port, () => {

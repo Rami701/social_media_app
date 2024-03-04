@@ -1,0 +1,15 @@
+<header>
+    <a href="/"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="31" stroke="#0099FF" stroke-width="2" />
+            <circle cx="32" cy="32" r="22.04" stroke="#0099FF" stroke-width="2" />
+            <circle cx="32" cy="32" r="11.52" fill="#353535" />
+        </svg></a>
+    <nav>
+        <div class="profile-image-container">
+            <a href="/users/<%= user.id %>"><img src="/uploads/profile_images/<%= activeUser.profileImageName %>"></a>
+        </div>
+        <a href="/users/<%= user.id %>">
+            <%= user.username %>
+        </a>
+    </nav>
+</header>

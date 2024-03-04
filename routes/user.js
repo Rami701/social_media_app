@@ -6,17 +6,14 @@ const bcrypt = require('bcryptjs')
 const path = require('path')
 const uploadPath = path.join('public', profileImageBasePath)
 const multer = require('multer')
-const imageMimeTypes = ['images/jpeg', 'images/png']
+const imageMimeTypes = ['images/jpeg', 'images/png', 'images/jpg']
 const upload = multer({
-    dest: uploadPath,
-    fileFilter: (req, file, cb) => {
-        cb(null, imageMimeTypes.includes(file.mimetype))
-    }
+    dest: uploadPath
 })
 
 
 // Creating user route
-router.post('/', upload.single('profileImage'), async (req, res) => {
+router.post('/', /*upload.single('profileImage'),*/ async (req, res) => {
     let user = new User()
     if (req.body.firstName == '' ||
         req.body.lastName == '' ||
@@ -31,7 +28,7 @@ router.post('/', upload.single('profileImage'), async (req, res) => {
         res.status(400).render('register', { user: user, errorMessage: 'All fields are required' })
         return
     }
-    const imageName = req.file != null ? req.file.filename : null
+    // const imageName = req.file != null ? req.file.filename : null
     const passwordHash = hashPassword(req.body.password)
 
     try {
@@ -41,10 +38,10 @@ router.post('/', upload.single('profileImage'), async (req, res) => {
             email: req.body.email,
             password: passwordHash,
             username: req.body.username,
-            profileImageName: imageName,
-            bio: req.body.bio
+            profileImageName: 'default_profile_pic.jpg',
+            bio: 'Hi, I love this app!'
         })
-        res.json(user)
+        res.redirect('/users/login')
     } catch {
         res.render('register', { user: user })
     }
@@ -54,7 +51,7 @@ router.post('/', upload.single('profileImage'), async (req, res) => {
 // login page route
 router.get('/login', (req, res) => {
     if (req.session.auth) {
-        res.status(200).json({ message: 'Already log in' })
+        res.redirect('/')
     } else {
         const user = new User()
         res.render('login', { email: '' })
@@ -74,7 +71,7 @@ router.get('/register', (req, res) => {
 // Login user route
 router.post('/login', async (req, res) => {
     if (req.session.auth) {
-        res.status(200).json({ message: 'Already login' })
+        res.redirect('/')
     } else {
         const email = req.body.email
         const password = req.body.password
@@ -93,11 +90,10 @@ router.post('/login', async (req, res) => {
                     return
                 }
                 if (check) {
-                    // todo: render the user's home page.
                     user.password = ''
                     req.session.user = user
                     req.session.auth = true
-                    res.status(200).json({ message: 'Login successful' })
+                    res.redirect('/')
                 } else {
                     res.render('login', { errorMessage: 'Wrong password', email: email })
                 }
@@ -128,19 +124,52 @@ router.post('/logout', async (req, res) => {
     }
 })
 
+// Update user profile image
+router.put('/:id/profileImage', upload.single('profileImage'), async (req, res) => {
+    if (!req.session.auth) {
+        res.redirect('login')
+        return
+    }
+    const imageName = req.file != null ? req.file.filename : 'default.jpg'
+    console.log(imageName)
+    try {
+        await User.update({ profileImageName: imageName }, {
+            where: {
+                id: req.params.id
+            }
+        });
+        req.session.user.profileImageName = imageName
+        res.redirect(`/users/${req.params.id}`)
+    } catch {
+        res.json({ message: 'Error while updating image' })
+    }
+
+})
+
 // Open user profile page route
 router.get('/:id', async (req, res) => {
+    if (!req.session.auth) {
+        res.redirect('login')
+        return
+    }
+
     let user
     try {
         user = await User.findByPk(req.params.id)
         if (user) {
-            // todo: render the user profile page and pass the user data to it.
-            res.json(user)
+            user.password = ''
+            const isSameUser = req.session.user.id == user.id ? true : false
+            res.render('profile',
+                {
+                    user: user,
+                    activeUser: req.session.user,
+                    isSameUser: isSameUser
+                })
         } else {
             res.status(404).json({ message: 'User not found' })
         }
     } catch {
-        res.status(500).json({ message: 'Error while getting user' })
+        res.redirect('/')
     }
 })
 
