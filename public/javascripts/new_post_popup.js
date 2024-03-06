@@ -1,18 +1,27 @@
+const popupContainer = document.getElementsByClassName('new-post-popup-container')[0]
+
 const addPhotoBtn = document.getElementById('addPhotoBtn')
-const fileInput = document.getElementById('newPostFileInput')
+// const fileInput = document.getElementById('newPostFileInput')
 const imagePreview = document.getElementsByClassName('image-preview-container')[0]
 const noPhotoP = document.getElementById('noPhotoP')
 const nextBtn = document.getElementsByClassName('next-btn')[0]
 const prevBtn = document.getElementsByClassName('prev-btn')[0]
+const cancelBtn = document.getElementById('newPostCancelBtn')
+const newPostForm = document.getElementsByClassName('new-post-form')[0]
 
 let images = []
 let activeImageIndex
 
-addPhotoBtn.addEventListener('click', () => {
-    fileInput.click()
-})
 
-fileInput.addEventListener('change', function () {
+addPhotoBtn.addEventListener('click', () => {
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.hidden = true
+    input.name = "image"
+    newPostForm.appendChild(input);
+    input.click(); // Trigger file input click event
+    input.addEventListener("change", function () {
     const image = this.files[0]
     const reader = new FileReader()
     reader.onload = () => {
@@ -32,7 +41,13 @@ fileInput.addEventListener('change', function () {
         if (imagePreview.children.item(0) == noPhotoP) imagePreview.removeChild(noPhotoP)
     }
     reader.readAsDataURL(image)
+    });
+    
 })
+
+// fileInput.addEventListener('change', function () {
+    
+// })
 
 nextBtn.addEventListener('click', () => {
     if (activeImageIndex >= images.length - 1) return
@@ -44,6 +59,10 @@ prevBtn.addEventListener('click', () => {
     if (activeImageIndex == 0) return
     activeImageIndex--
     displayActiveImage(activeImageIndex)
+})
+
+cancelBtn.addEventListener('click', () => {
+    popupContainer.style.display = 'none'
 })
 
 function displayActiveImage(index){

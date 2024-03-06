@@ -30,10 +30,16 @@ app.use(session({
 
 const userRouter = require('./routes/user')
 const mainRouter = require('./routes/main')
+const postRouter = require('./routes/post')
+const LikeRouter = require('./routes/like')
+const testingRouter = require('./routes/testing')
 
 
 app.use('/users', userRouter)
+app.use('/posts', postRouter)
+app.use('/likes', LikeRouter)
 app.use('/', mainRouter)
+app.use('/testing', testingRouter)
 
 
 db.sequelize.sync().then((req) => {

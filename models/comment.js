@@ -16,5 +16,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     })
+    Comment.associate = models => {
+        // Define associations
+        Comment.belongsTo(models.User, {foreignKey: 'user_id'})
+        Comment.belongsTo(models.Post, {foreignKey: 'post_id'})
+    };
     return Comment
 }

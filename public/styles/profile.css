@@ -218,3 +218,54 @@ input[type=file]::file-selector-button {
 input[type=file]::file-selector-button:hover {
     background: rgb(8, 54, 133)
 }
+
+.user-posts-container{
+    margin-top: 10rem;
+    width: 100%;
+    display: flex;
+    gap: 10rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-post{
+    width: 20%;
+    height: 25rem;
+    background-color: rgb(15, 15, 15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: .7rem;
+}
+
+.user-post-preview-footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background-color: #0099ff;
+    border-radius: 0 0 .7rem .7rem;
+    padding: .5rem 0;
+}
+
+.user-post-stats{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+#likeBtn{
+    cursor: pointer;
+}
+
+.user-post-dots{
+    margin-right: 1rem;
+}
+
+.user-post-preview-likes{
+    margin-right: .5rem;
+}

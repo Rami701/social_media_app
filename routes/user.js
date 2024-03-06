@@ -39,7 +39,7 @@ router.post('/', /*upload.single('profileImage'),*/ async (req, res) => {
             email: req.body.email,
             password: passwordHash,
             username: req.body.username,
-            profileImageName: 'default_profile_pic.jpg',
+            profileImageName: 'default.jpg',
             bio: 'Hi, I love this app!'
         })
         res.redirect('/users/login')

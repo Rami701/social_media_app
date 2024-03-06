@@ -1,6 +1,6 @@
 <div class="new-post-popup-container">
-    <form class="new-post-form" action="/posts" method="POST">
-        <input type="file" hidden accept="image/*" id="newPostFileInput">
+    <form class="new-post-form" action="/posts" method="POST" enctype="multipart/form-data">
+        <!-- <input type="file" hidden accept="image/*" id="newPostFileInput" multiple name="images"> -->
         <div class="new-post-popup-header">
             <h2>Create post</h2>
             <button id="newPostCancelBtn" type="reset">Cancel</button>

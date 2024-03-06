@@ -9,5 +9,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     })
+    Like.associate = models => {
+        // Define associations
+        Like.belongsTo(models.Post, { foreignKey: 'post_id' })
+        Like.belongsTo(models.User, {foreignKey: 'user_id'})
+    };
     return Like
 }

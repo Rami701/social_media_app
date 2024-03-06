@@ -13,5 +13,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     })
+    PostMedia.associate = models => {
+        // Define associations
+        PostMedia.belongsTo(models.Post, { foreignKey: 'post_id' }); // Each media file belongs to a post
+    };
     return PostMedia
 }
