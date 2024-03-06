@@ -1,0 +1,188 @@
+.new-post-popup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.new-post-form {
+    padding: 1rem;
+    width: 50%;
+    min-height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: .5rem;
+    transition: bottom 0.3s ease;
+}
+
+.new-post-popup-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid lightgray;
+    padding-bottom: .5rem;
+}
+
+.new-post-popup-header button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #0099ff;
+}
+
+.new-post-popup-header h2 {
+    color: rgb(31, 31, 31);
+    text-align: center;
+    width: 100%;
+}
+
+.image-preview-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 70%;
+    max-height: 90%;
+}
+
+.next-btn, .prev-btn{
+    display: none;
+    font-size: 2rem;
+    color: #0099ff;
+    border: 2px solid #0099ff;
+    cursor: pointer;
+    padding: .5rem;
+    border-radius: .5rem;
+    transition: .3s ease;
+}
+
+.next-btn:hover, .prev-btn:hover{
+    background-color: #0099ff;
+    color: white;
+    border: 2px solid white;
+}
+
+.next-btn{
+    margin-left: .5rem;
+}
+
+.prev-btn{
+    margin-right: .5rem;
+}
+
+#noPhotoP{
+    text-align: center;
+    width: 100%;
+}
+
+
+
+.image-preview-container img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit:contain;
+}
+
+
+
+.new-post-popup-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid lightgray;
+    padding-top: .5rem;
+}
+
+/*Caption input styling*/
+.new-post-popup-footer input {
+    font-size: 1rem;
+    width: 50%;
+    background-color: #ffffff;
+    color: #242424;
+    padding: .15rem .5rem;
+    min-height: 40px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    line-height: 1.15;
+    box-shadow: 0px 10px 20px -18px;
+}
+  
+.new-post-popup-footer input:focus {
+    border-bottom: 2px solid #0099ff;
+    border-radius: 4px 4px 2px 2px;
+}
+  
+.new-post-popup-footer input:hover {
+    outline: 1px solid lightgrey;
+}
+
+.new-post-popup-footer div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 25%;
+}
+
+.new-post-popup-footer button[type="submit"] {
+    --color: white;
+    font-family: inherit;
+    display: inline-block;
+    width: 6em;
+    height: 2.6em;
+    line-height: 2.5em;
+    overflow: hidden;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 1;
+    color: var(--color);
+    border: none;
+    border-radius: .4rem;
+    position: relative;
+    background-color: #0099ff;
+}
+
+.new-post-popup-footer button[type="submit"]::before {
+    position: absolute;
+    content: "";
+    background: var(--color);
+    width: 150px;
+    height: 200px;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.new-post-popup-footer button[type="submit"]:hover {
+    color: #0099ff;
+    border: 2px solid #0099ff;
+}
+
+.new-post-popup-footer button[type="submit"]:before {
+    top: 100%;
+    left: 100%;
+    transition: 0.3s all;
+}
+
+.new-post-popup-footer button[type="submit"]:hover::before {
+    top: -30px;
+    left: -30px;
+}
+
+#addPhotoBtn{
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: #0099ff;
+    cursor: pointer;
+}

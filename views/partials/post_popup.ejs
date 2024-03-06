@@ -1,0 +1,22 @@
+<div class="new-post-popup-container">
+    <form class="new-post-form" action="/posts" method="POST">
+        <input type="file" hidden accept="image/*" id="newPostFileInput">
+        <div class="new-post-popup-header">
+            <h2>Create post</h2>
+            <button id="newPostCancelBtn" type="reset">Cancel</button>
+        </div>
+        <div class="image-preview-container">
+            <p id="noPhotoP">No Photos uploaded</p>
+            <button class="prev-btn" type="button">&#10094;</button>
+            <button class="next-btn" type="button">&#10095;</button>
+        </div>
+        <div class="new-post-popup-footer">
+            <input type="text" placeholder="Caption..." name="caption">     
+            <div>
+                <button type="button" id="addPhotoBtn">Add photo</button>
+                <button type="submit">Post</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/javascripts/new_post_popup.js"></script>

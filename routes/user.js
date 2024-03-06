@@ -4,6 +4,7 @@ const { User } = require('../models')
 const profileImageBasePath = require('../models/user').profileImageBasePath
 const bcrypt = require('bcryptjs')
 const path = require('path')
+const fs = require('fs')
 const uploadPath = path.join('public', profileImageBasePath)
 const multer = require('multer')
 const imageMimeTypes = ['images/jpeg', 'images/png', 'images/jpg']
@@ -130,6 +131,15 @@ router.put('/:id/profileImage', upload.single('profileImage'), async (req, res) 
         res.redirect('login')
         return
     }
+    // Get the user's current profile image name
+    const user = await User.findByPk(req.params.id);
+    const previousImageName = user.profileImageName;
+
+    // Delete the previous image file if it exists and it's not the default image
+    if (previousImageName && previousImageName !== 'default.jpg') {
+        fs.unlinkSync(path.join(uploadPath, previousImageName));
+    }
+
     const imageName = req.file != null ? req.file.filename : 'default.jpg'
     console.log(imageName)
     try {
