@@ -1,5 +1,6 @@
 <%- include('./partials/header.ejs') %>
-    <div class="popup-container">
+<%- include('./partials/followers.ejs') %>
+    <div class="popup-container" id="profileImgPopupContainer">
         <form class="popup" action="/users/<%= user.id %>/profileImage?_method=PUT" method="POST"
             enctype="multipart/form-data">
             <h2>Change profile picture</h2>
@@ -34,25 +35,37 @@
                                 fill="#0099FF" class="svg-path" />
                         </svg>
                     </button>
+                    <% } else{%>
+                        <% if (!isFollowing) {%>
+                            <form action="/users/follow/<%= user.id %>" method="POST">
+                                <button class="follow-btn" type="submit">Follow</button>
+                            </form>
+                        <% } else { %>
+                            <form action="/users/follow/<%= user.id %>?_method=DELETE" method="POST">
+                                <button class="un-follow-btn">Unfollow</button>
+                            </form>
+                        <% } %>
                     <% } %>
             </div>
         </div>
         <div class="profile-stats">
-            <a href="#" class="profile-stat">
-                <p class="stat-count">27</p>
+            <div class="profile-stat" id="posts-btn">
+                <p class="stat-count"><%= posts.length %></p>
                 <p class="stat-label">Posts</p>
-            </a>
-            <a href="#" class="profile-stat">
-                <p class="stat-count">15.8K</p>
+            </div>
+            <div class="profile-stat" id="followers-btn" data-user-id="<%= user.id %>">
+                <p class="stat-count"><%= followersCount %></p>
                 <p class="stat-label">Followers</p>
-            </a>
-            <a href="#" class="profile-stat">
-                <p class="stat-count">316</p>
+            </div>
+            <div class="profile-stat" id="following-btn">
+                <p class="stat-count"><%= followingCount %></p>
                 <p class="stat-label">Following</p>
-            </a>
+            </div>
         </div>
     </div>
     <%- include('./partials/user_posts.ejs') %>
     <% if (isSameUser) { %>
-        <script src="/javascripts/profile.js"></script>
+        <script src="/javascripts/user_profile.js"></script>
         <% } %>
+    <script src="/javascripts/profile.js"></script>
+    

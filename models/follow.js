@@ -9,5 +9,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     })
+    Follow.associate = models => {
+        Follow.belongsTo(models.User, {foreignKey: 'follower_id', as: 'follower'})
+        Follow.belongsTo(models.User, {foreignKey: 'followed_id', as: 'followed'})
+    }
     return Follow
 }

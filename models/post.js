@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         }
     })
     Post.associate = models => {
-        // Define associations
         Post.belongsTo(models.User, {foreignKey: 'user_id'})
         Post.hasMany(models.PostMedia, { foreignKey: 'post_id' })
         Post.hasMany(models.Like, {foreignKey: 'post_id'})

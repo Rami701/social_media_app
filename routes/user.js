@@ -1,11 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const { User } = require('../models')
+const { Post } = require('../models')
+const { PostMedia } = require('../models')
+const { Like } = require('../models')
+const { Comment } = require('../models')
+const {Follow} = require('../models')
 const profileImageBasePath = require('../models/user').profileImageBasePath
 const bcrypt = require('bcryptjs')
 const path = require('path')
 const fs = require('fs')
 const uploadPath = path.join('public', profileImageBasePath)
+const postMediaBasePath = '/uploads/post_media/'
 const multer = require('multer')
 const imageMimeTypes = ['images/jpeg', 'images/png', 'images/jpg']
 const upload = multer({
@@ -125,6 +131,26 @@ router.post('/logout', async (req, res) => {
     }
 })
 
+// get a user followers
+router.get('/followers/:userId', async (req, res) => {
+    if (!req.session.auth){
+        res.redirect('/login')
+        return
+    }
+
+    const userId = req.params.userId
+    const limit = req.query.limit
+    const currentPage = req.query.currentPage
+    try{
+        const followers = await fetchFollowers(userId, limit, currentPage)
+        res.json(followers)
+    }catch (e){
+        console.log('------------------------------------------')
+        console.log(e)
+        res.redirect(`/users/${userId}`)
+    }
+})
+
 // Update user profile image
 router.put('/:id/profileImage', upload.single('profileImage'), async (req, res) => {
     if (!req.session.auth) {
@@ -156,6 +182,53 @@ router.put('/:id/profileImage', upload.single('profileImage'), async (req, res) 
 
 })
 
+
+
+// follow user
+router.post('/follow/:followedId', async (req, res) => {
+    if (!req.session.auth){
+        res.redirect('login')
+        return
+    }
+    try{
+        const followedUser = await User.findByPk(req.params.followedId)
+        if(!followedUser){
+            res.redirect('/')
+            return
+        }
+        const follow = await Follow.create({
+            follower_id: req.session.user.id,
+            followed_id: req.params.followedId,
+        })
+        res.redirect(`/users/${req.params.followedId}`)
+    }catch{
+        res.redirect('/')
+    }
+})
+
+// unfollow user
+router.delete('/follow/:followedId', async (req, res) => {
+    if (!req.session.auth){
+        res.redirect('login')
+        return
+    }
+
+    try{
+        const followedUser = await User.findByPk(req.params.followedId)
+        if(!followedUser){
+            res.redirect('/')
+            return
+        }
+        await Follow.destroy({where: {
+            follower_id: req.session.user.id,
+            followed_id: req.params.followedId,
+        }})
+        res.redirect(`/users/${req.params.followedId}`)
+    }catch{
+        res.redirect('/')
+    }
+})
+
 // Open user profile page route
 router.get('/:id', async (req, res) => {
     if (!req.session.auth) {
@@ -169,16 +242,46 @@ router.get('/:id', async (req, res) => {
         if (user) {
             user.password = ''
             const isSameUser = req.session.user.id == user.id ? true : false
+            
+            const userPosts = await Post.findAll({where: {user_id: req.params.id}, include: [{ model: PostMedia }, { model: Like, include: { model: User } }, { model: User }, {model: Comment, include: {model: User}}]})
+            const follow = await Follow.findAll({where: {
+                follower_id: req.session.user.id,
+                followed_id: req.params.id,
+            }})
+
+            const followers = await Follow.findAll({where: {
+                followed_id: req.params.id
+            }})
+
+            const followings = await Follow.findAll({where: {
+                follower_id: req.params.id
+            }})
+
+            let following = follow[0]
+            
+            let isFollowing
+
+            if (following && following.follower_id != null){
+                isFollowing = true
+            }else{
+                isFollowing = false
+            }
             res.render('profile',
                 {
                     user: user,
                     activeUser: req.session.user,
-                    isSameUser: isSameUser
+                    isSameUser: isSameUser,
+                    posts: userPosts,
+                    basePath: postMediaBasePath,
+                    isFollowing: isFollowing,
+                    followingCount: followings.length,
+                    followersCount: followers.length
                 })
         } else {
             res.status(404).json({ message: 'User not found' })
         }
-    } catch {
+    } catch (e){
+        console.log(e)
         res.redirect('/')
     }
 })
@@ -195,6 +298,21 @@ async function checkPassword(password, hash) {
     } catch {
         return -1
     }
+}
+
+async function fetchFollowers(userId, limit, page){
+    limit = parseInt(limit, 10)
+    const offset = (page - 1) * limit
+    
+    const follows = await Follow.findAll({
+        where: {followed_id: userId},
+        limit: limit,
+        offset: offset,
+        include: [{model: User, as: 'follower', attributes: ['profileImageName', 'username']}]
+    })
+    const followers = follows.map(follower => follower.follower);
+
+    return followers
 }
 
 

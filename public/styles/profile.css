@@ -44,6 +44,35 @@
     display: flex;
 }
 
+.follow-btn{
+    font-size: 1.1rem;
+    padding: .5rem 1.5rem;
+    background-color: #0099ff;
+    border-radius: .2rem;
+    color: white;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    border: 2px solid #0099ff;
+    transition: .3s ease;
+}
+
+.follow-btn:hover{
+    background: none;
+    color: #0099ff;
+}
+
+.un-follow-btn{
+    font-size: 1.1rem;
+    padding: .5rem 1.5rem;
+    background: none;
+    border-radius: .2rem;
+    color: #0099ff;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    border: 2px solid #0099ff;
+    transition: .3s ease;
+}
+
 .edit-profile-btn {
     margin-top: 2rem;
     padding: 1rem;
@@ -87,6 +116,7 @@
     align-items: center;
     text-decoration: none;
     color: white;
+    cursor: pointer;
 }
 
 .stat-count {
@@ -240,6 +270,12 @@ input[type=file]::file-selector-button:hover {
     border-radius: .7rem;
 }
 
+.user-post-preview-image{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 .user-post-preview-footer{
     width: 100%;
     display: flex;
@@ -269,3 +305,168 @@ input[type=file]::file-selector-button:hover {
 .user-post-preview-likes{
     margin-right: .5rem;
 }
+
+/*Following popups styles*/
+.followings-search-container {
+    display: flex;
+    line-height: 28px;
+    align-items: center;
+    position: relative;
+    max-width: 190px;
+   }
+   
+   .followings-search-input {
+    width: 100%;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 1rem;
+    padding-left: 2.5rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    transition: .3s ease;
+   }
+   
+   .followings-search-input::placeholder {
+    color: #9e9ea7;
+   }
+   
+   .followings-search-input:focus, .followings-search-input:hover {
+    outline: none;
+    border-color: #0099ff66;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px #0099ff1a;
+   }
+   
+   .search-icon {
+    position: absolute;
+    left: 1rem;
+    fill: #9e9ea7;
+    width: 1rem;
+    height: 1rem;
+   }
+   
+.followings-container{
+    padding: 1rem; 
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 45rem;
+    max-height: 45rem;
+    width: 30rem;
+    background-color: #e6e6e6;
+    border-radius: 1.2rem;
+    overflow: auto;
+}
+
+.followings-title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.followings-title h2{
+    color: black;
+    width: 100%;
+    text-align: center;
+}
+
+.followings-title button{
+    border: none;
+    background: none;
+    color: #0099ff;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.followings-search-container{
+    margin-top: 1.5rem;
+}
+
+.divider{
+    width: 95%;
+    height: .3rem;
+    background-color: #bdbdbd;
+    border-radius: 5rem;
+    margin-top: 1.2rem;
+    margin-bottom: .5rem;
+}
+
+.cards-container{
+    width: 100%;
+}
+
+.following-card{
+    padding: .5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 1rem;
+    width: 90%;
+    margin-bottom: 1rem;
+}
+
+.following-card-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.following-card-img-container {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: .15rem solid #0099ff;
+    box-sizing: border-box;
+    position: relative;
+    margin-right: .7rem;
+    background-color: black;
+}
+
+.following-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+}
+
+.following-card-follow-btn{
+    font-size: 1rem;
+    padding: .3rem 1rem;
+    background-color: #0099ff;
+    border-radius: .2rem;
+    color: white;
+    cursor: pointer;
+    border: 2px solid #0099ff;
+    transition: .3s ease;
+}
+
+.following-card-follow-btn:hover{
+    background: none;
+    color: #0099ff;
+}
+
+.following-card-un-follow-btn{
+    font-size: 1rem;
+    padding: .3rem 1rem;
+    background: none;
+    border-radius: .2rem;
+    color: #0099ff;
+    cursor: pointer;
+    border: 2px solid #0099ff;
+    transition: .3s ease;
+}
+
+   
+   

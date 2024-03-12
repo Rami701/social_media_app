@@ -6,10 +6,10 @@
         </svg></a>
     <nav>
         <div class="profile-image-container">
-            <a href="/users/<%= user.id %>"><img src="/uploads/profile_images/<%= activeUser.profileImageName %>"></a>
+            <a href="/users/<%= activeUser.id %>"><img src="/uploads/profile_images/<%= activeUser.profileImageName %>"></a>
         </div>
-        <a href="/users/<%= user.id %>">
-            <%= user.username %>
+        <a href="/users/<%= activeUser.id %>">
+            <%= activeUser.username %>
         </a>
     </nav>
 </header>
